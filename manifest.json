@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "my newpage",
+  "version": "1.0.20160711",
+
+  "description": "poor newpage",
+  "browser_action": {
+  },
+  "chrome_url_overrides" : {
+    "newtab": "newpage.html"
+  },
+  "permissions":[
+    "storage"
+  ],
+  "web_accessible_resources": [
+    "newpage.css",
+    "jquery223min.js",
+    "newpage.js"
+  ]
+}

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<title>新しいページ</title>
+
+<script type="text/javascript" src="jquery-2.2.3.min.js"></script>
+
+<style type="text/css">
+<!--
+body{
+	font-family: "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro";
+	/*margin-left:auto;*/
+	/*margin-right:auto;*/
+}
+
+a:link{
+	color:blue;
+}
+a:visited {
+	color:blue;
+}
+a:active{
+	color:red;
+}
+a:hover{
+	color:red;
+}
+a:focus{
+	color:red;
+}
+
+label{
+	display: inline-block;
+}
+
+.flexboxRow{
+	display:flex;
+	flex-direction: row;
+}
+.flexboxCol{
+	display: flex;
+	flex-direction: column;
+	flex-basis
+}
+
+.flexboxRowWrap{
+	display:flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+}
+
+.flexcontainer{
+	flex: 1;
+}
+.container{
+	display: inline-block;
+}
+
+.border{
+	margin:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000;
+	border-radius: 5px;
+	padding:1px;
+	box-shadow: 1px 1px 2px 0px #444;
+}
+.center{
+	text-align:center;
+}
+
+.lightHeader{
+	border-bottom-color: #000;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 8px;
+	padding-left: 15px;
+	padding-right: 10px;
+}
+
+.itembox{
+	/*Marker*/
+}
+
+.notext{
+	cursor:default;
+}
+
+
+
+.containerName{
+
+}
+
+.iconItem{
+	display:inline-block;
+	margin:4px;
+	padding:8px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000;
+	border-radius: 0px;
+	text-align:center;
+	cursor:pointer;
+	background-color: #FFF;
+}
+.iconItem:hover{
+	background-color: #DDD;
+}
+
+.iconItem > .ii_icon{
+	margin-left:auto;
+	margin-right:auto;
+	background-color:#DDD;
+	border-radius: 4px;
+	width:32px;
+	height:32px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.iconItem > .ii_name{
+
+}
+
+
+.design1 > .iconItem{
+	padding:2px 8px;
+}
+.design1 > .iconItem:hover{
+	background-color: #DDD;
+}
+
+.design1 > .iconItem > .ii_icon{
+	display:none;
+}
+
+.design1 > .iconItem > .ii_name{
+	
+}
+
+
+.design2 > .iconItem{
+	text-align: left;
+	display:block;
+	padding:2px 8px;
+}
+.design2 > .iconItem:hover{
+	background-color: #DDD;
+}
+
+.design2 > .iconItem > .ii_icon{
+	display:inline-block;
+	height:auto;
+	margin-right:6px;
+}
+
+.design2 > .iconItem > .ii_name{
+	display:inline-block;
+}
+
+
+
+
+#searchDivision > input{
+	min-width:100px;
+	height:32px;
+}
+
+#search{
+	width:500px;
+	text-align:center;
+	font-size:large;
+
+	margin:5px;
+}
+
+#settingsBox .itembox{
+	min-width:400px;
+	display:inline-block;
+	padding:6px;
+}
+
+.codebox{
+	white-space: pre-wrap;
+	font-family: monospace;
+	display: block;
+	padding: 3px;
+	overflow: auto;
+	max-height:300px;
+}
+
+// -->
+</style>
+
+<script type="text/javascript">
+<!--
+
+personalSettings={
+	"auth":null,
+	"linenum":4,        // 固定
+	"containers":[
+		{
+			"order":0,
+			"lineid":0,
+			"name":"Twitter",
+			"design":0,
+			"items":[
+				{
+					"order":0,
+					"initial":"T",
+					"name":"Twitter",
+					"iconbgcolor":"#4AF",
+					"iconfontcolor":"#FFF",
+					"addr":"https://twitter.com/"
+				},{
+					"order":1,
+					"initial":"mT",
+					"name":"Mai Twitter",
+					"iconbgcolor":"#4AF",
+					"iconfontcolor":"#FFF",
+					"addr":"https://twitter.com/m_buyoh/"
+				}
+			]
+		}
+	]
+};
+
+selectedElement=null;
+selectMode="view";
+
+$(document).ready(function(){
+	$('#settingsBox').hide();
+
+	loadPersonalSettingsFromLocal();
+	containersFlush();
+});
+
+$(window).on("unload",function(){
+	storePersonalSettingsToLocal();
+	storePersonalSettingsToWeb();
+
+});
+
+function loadPersonalSettingsFromLocal(){
+	try{
+		var r=JSON.parse(localStorage.personalSettings);
+		personalSettings=r;
+		logwriteln("Success loading local settings");
+	}catch(e){
+		logwriteln("!!Failed loading local settings ->"+e);
+	}
+}
+
+function storePersonalSettingsToLocal(){
+	try{
+		localStorage.personalSettings=JSON.stringify(personalSettings);
+		logwriteln("Success storing local settings");
+	}catch(e){
+		logwriteln("!!Failed storing local settings ->"+e);
+	}
+}
+
+function clearLocalStorageAll(){
+	localStorage.clear();
+}
+
+function loadPersonalSettingsFromWeb(){
+
+}
+
+function storePersonalSettingsToWeb(){
+
+}
+
+function authorizeGoogle(){
+
+}
+
+function logoutGoogle(){
+	
+}
+
+function appendContainer(){
+	var line=$("#ec_line").val();
+	var name=$("#ec_name").val();
+	var cont={};
+	cont.order=personalSettings.containers.length;
+	cont.lineid=line;
+	cont.name=name;
+	cont.design=0;
+	cont.items=[];
+	personalSettings.containers.push(cont);
+	containersFlush();
+}
+
+function appendItem(){
+	if (selectedElement===null){
+		alert("You have to select a container.");
+		return ;
+	}
+	var target=$(selectedElement.currentTarget);
+	if (target.is(".iconItem")){
+		alert("You have to select a container.");
+		return ;
+	}
+
+	var name=$("#ia_name").val();
+	var init=$("#ia_init").val();
+	var addr=$("#ia_addr").val();
+	var bg_c=$("#ia_bgc").val();
+	var tx_c=$("#ia_ftc").val();
+	var parentContainer=selectedElement.data.order;
+
+	if (name===""){
+		return ;
+	}
+
+	var order=personalSettings.containers[parentContainer].items.length;
+
+	var json = {
+		"order":order,
+		"initial":init,
+		"name":name,
+		"iconbgcolor":bg_c,
+		"iconfontcolor":tx_c,
+		"addr":addr
+	}
+
+	personalSettings.containers[parentContainer].items.push(json);
+
+	containersFlush();
+
+}
+function removeSelected(){
+	if (selectedElement===null) return;
+
+	if (!confirm("Are you sure this component will be removed?")) return;
+
+	var target=$(selectedElement.currentTarget);
+	var order=selectedElement.data.order;
+
+	if (target.is(".containerName")){
+		personalSettings.containers.splice(order,1);
+		for (var i=0;i<personalSettings.containers.length;i++){
+			personalSettings.containers[i].order=i;
+		}
+	}else if (target.is(".iconItem")){
+		if (target.data("parent")===undefined) return;
+		var parentOrder=target.data("parent");
+		personalSettings.containers[parentOrder].items.splice(order,1);
+		for (var i=0;i<personalSettings.containers[parentOrder].items.length;i++){
+			personalSettings.containers[parentOrder].items[i].order=i;
+		}
+		
+	}
+	selectedElement=null;
+	containersFlush();
+	selectedFlush();
+}
+
+function containersFlush(){
+	var domroot=$("#linkSet");
+	domroot.empty();
+
+	var domlines=new Array(personalSettings.linenum);
+	for (var i=0;i<domlines.length;i++){
+		domlines[i] = $('<div class="border flexcontainer center"></div>').data("index",i);
+	}
+
+	personalSettings.containers.sort(function(l,r){return (l.order-r.order);});
+
+	for (var i=0;i<personalSettings.containers.length;i++){
+		var cont = personalSettings.containers[i];
+		var contline = cont.lineid-0;
+		domlines[contline].append(generateContainer(cont));
+	}
+
+	for (var i=0;i<domlines.length;i++){
+		domroot.append(domlines[i]);
+	}
+}
+
+
+function iconSampleFlush(){
+	var inin = $("#ia_init").val();
+	var name = $("#ia_name").val();
+	var addr = $("#ia_addr").val();
+	var bg_c = $("#ia_bgc").val();
+	var tx_c = $("#ia_ftc").val();
+
+	if (inin=="")
+		inin="T";
+	if (name=="")
+		name="Twitter";
+
+	var json = {
+		"initial":inin,
+		"name":name,
+		"iconbgcolor":bg_c,
+		"iconfontcolor":tx_c,
+		"addr":null,
+		"order":null
+	}
+	$("#ia_sampleView > .iconItem").replaceWith(generateIconItem(json));
+}
+
+function generateContainer(json){
+	var contname = json.name;
+	var domcont = $('<div class="container border notext"></div>');
+
+	domcont.append($('<div class="lightHeader"></div>').append($('<a class="containerName">'+contname+'</a>').click({"order":json.order},containerAction)));
+	domcont.addClass("design"+json.design);
+
+	if (json.items!=null && json.items.length>0){
+		json.items.sort(function(l,r){return l.order-r.order;});
+		for (var j=0;j<json.items.length;j++){
+			var item = json.items[j];
+			domcont.append(generateIconItem(item).data("parent",json.order));
+		}
+	}
+	return domcont;
+}
+
+function generateIconItem(json){
+	var item = $('<div class="iconItem"></div>');
+	var icon = $('<div class="ii_icon"></div>');
+	var text = $('<div class="ii_name"></div>');
+
+	item.data("addr",json.addr).click({"addr":json.addr,"order":json.order},iconAction).on("contextmenu",{"addr":json.addr},iconContextmenu);
+	icon.append(json.initial).css("background-color",json.iconbgcolor).css("color",json.iconfontcolor);
+	text.append(json.name);
+	item.append(icon).append(text);
+	return item;
+}
+
+function iconContextmenu(obj){
+
+	if (obj.data.addr==null){
+		return ;
+	}
+
+	switch(selectMode){
+		case "view":
+		case "select":
+			window.open(obj.data.addr);
+			obj.stopImmediatePropagation();
+		case "swap":
+			break;
+	}
+}
+
+function iconAction(obj){
+	if (obj.data.addr==null){
+		return ;
+	}
+
+	switch(selectMode){
+		case "view":
+			location.href=obj.data.addr;
+			break;
+		case "swap":
+			if (selectedElement!==null){
+				var target=$(selectedElement.currentTarget);
+				if (target.is(".iconItem")){
+					swapItem(selectedElement,obj);
+				}else{
+					moveItem(selectedElement,obj);
+				}
+				selectedElement=null;
+				selectedFlush();
+				break;
+			}
+			selectedElement=obj;
+			selectedFlush();
+			break;
+		case "select":
+			selectedElement=obj;
+			selectedFlush();
+			$("#button_removeSelected").removeAttr("disabled");
+			$("#button_cancelSelected").removeAttr("disabled");
+			$("#button_editSelected").removeAttr("disabled");
+			$("#button_cntTypeTglSelected").attr("disabled","disabled");
+			break;
+	}
+}
+
+function containerAction(obj){
+	switch(selectMode){
+		case "view":
+			break;
+		case "swap":
+			if (selectedElement!==null){
+				var target=$(selectedElement.currentTarget);
+				if (target.is(".containerName")){
+					swapContainer(selectedElement,obj);
+				}else{
+					moveItem(obj,selectedElement);
+				}
+				selectedElement=null;
+				selectedFlush();
+				break;
+			}
+			selectedElement=obj;
+			selectedFlush();
+			break;
+		case "select":
+			selectedElement=obj;
+			selectedFlush();
+			$("#button_removeSelected").removeAttr("disabled");
+			$("#button_cancelSelected").removeAttr("disabled");
+			$("#button_editSelected").removeAttr("disabled");
+			$("#button_cntTypeTglSelected").removeAttr("disabled");
+			break;
+	}
+}
+
+function selectedFlush(){
+	var dom=$("#modeDetail");
+	dom.empty();
+	if (selectedElement===null){
+		$("#button_removeSelected").attr("disabled","disabled");
+		$("#button_cancelSelected").attr("disabled","disabled");
+		$("#button_editSelected").attr("disabled","disabled");
+		$("#button_cntTypeTglSelected").attr("disabled","disabled");
+		return ;
+	}
+	var target=$(selectedElement.currentTarget);
+
+	if (target.is(".containerName")){
+		dom.append("[container] - "+target.text());
+	}else if (target.is(".iconItem")){
+		dom.append("[icon] - "+target.find(".ii_name").text());
+	}
+}
+
+function swapContainer(objl,objr){
+
+	//var targetl=$(objl.currentTarget);
+	var orderl =objl.data.order;
+	//var targetr=$(objr.currentTarget);
+	var orderr =objr.data.order;
+
+	if (orderl==orderr) return;
+
+	personalSettings.containers[orderl].order=orderr;
+	personalSettings.containers[orderr].order=orderl;
+
+	var tline=personalSettings.containers[orderl].lineid;
+	personalSettings.containers[orderl].lineid=personalSettings.containers[orderr].lineid;
+	personalSettings.containers[orderr].lineid=tline;
+
+	var tjson=personalSettings.containers[orderl];
+	personalSettings.containers[orderl] = personalSettings.containers[orderr];
+	personalSettings.containers[orderr] = tjson;
+
+	containersFlush();
+}
+
+function swapItem(objl,objr){
+
+	var targetl     =$(objl.currentTarget);
+	var orderl      =objl.data.order;
+	var parentOrderl=targetl.data("parent");
+	var targetr     =$(objr.currentTarget);
+	var orderr      =objr.data.order;
+	var parentOrderr=targetr.data("parent");
+
+	personalSettings.containers[parentOrderl].items[orderl].order=orderr;
+	personalSettings.containers[parentOrderr].items[orderr].order=orderl;
+
+	var tjson=personalSettings.containers[parentOrderl].items[orderl];
+	personalSettings.containers[parentOrderl].items[orderl] = personalSettings.containers[parentOrderr].items[orderr];
+	personalSettings.containers[parentOrderr].items[orderr] = tjson;
+
+	containersFlush();
+
+}
+
+function moveItem(cont,item){
+	//var targetc     =$(cont.currentTarget);
+	var orderc      =cont.data.order;
+	var targeti     =$(item.currentTarget);
+	var orderi      =item.data.order;
+	var parentOrderi=targeti.data("parent");
+
+	personalSettings.containers[orderc].items.push(personalSettings.containers[parentOrderi].items[orderi]);
+	personalSettings.containers[parentOrderi].items.splice(orderi,1);
+
+	for (var i=0;i<personalSettings.containers[parentOrderi].items.length;i++){
+		personalSettings.containers[parentOrderi].items[i].order=i;
+	}
+	for (var i=0;i<personalSettings.containers[orderc].items.length;i++){
+		personalSettings.containers[orderc].items[i].order=i;
+	}
+	containersFlush();
+}
+
+function modeChanged(){
+	var selected=$("input[name='radioModeSel']:checked").val();
+
+	selectedElement=null;
+	selectedFlush();
+	selectMode=selected;
+
+	$("#button_removeSelected").attr("disabled","disabled");
+}
+
+function cancelSelected(){
+	selectedElement=null;
+	selectedFlush();
+}
+
+function editSelected(){
+	if (selectedElement===null) return;
+
+	var target=$(selectedElement.currentTarget);
+	var order=selectedElement.data.order;
+
+	if (target.is(".containerName")){
+		var elem=personalSettings.containers[order];
+
+		var res=prompt("change a new name here.",elem.name);
+		if (res!==null){
+			elem.name=res;
+			containersFlush();
+		}
+
+	}else if (target.is(".iconItem")){
+		var parentOrder=target.data("parent");
+		var elem=personalSettings.containers[parentOrder].items[order];
+
+		$("#ia_init").val(elem.initial);
+		$("#ia_name").val(elem.name);
+		$("#ia_addr").val(elem.addr);
+		$("#ia_bgc").val(elem.iconbgcolor);
+		$("#ia_ftc").val(elem.iconfontcolor);
+		iconSampleFlush();
+	}
+
+	return 0;
+}
+
+function toggleContainerType(){
+	if (selectedElement===null) return;
+
+	var target=$(selectedElement.currentTarget);
+	var order=selectedElement.data.order;
+
+	if (target.is(".containerName")){
+		var elem=personalSettings.containers[order];
+		elem.design=(++elem.design)%3;
+	}
+	containersFlush();
+}
+
+function logwriteln(text){
+	$("#statusbar").prepend($("<div></div>").text(text));
+}
+
+function arrayClone(arr){
+	return [].concat(arr);
+}
+
+function searching(l,r){
+	location.href=l+encodeURI($("#search").val())+r;
+}
+
+// -->
+</script>
+
+</head>
+<body>
+
+<div class="border">
+	<div class="border">
+		<div class="center" id="searchDivision">
+			<input type="text" placeholder="keyword" autocomplete="off" id="search">
+			<input type="button" value="Google" onclick="searching('https://www.google.co.jp/search?q=','')">
+			<input type="button" value="Twitter" onclick="searching('https://twitter.com/search?q=','')">
+			<input type="button" value="alc" onclick="searching('http://eow.alc.co.jp/search?q=','')">
+		</div>
+	</div>
+	<div class="border flexboxRow" id="linkSet">
+
+	</div>
+	<div class="border" style="margin-top:100px;">
+		<div><input type="button" value="Settings" onclick="$('#settingsBox').slideToggle();"></div>
+		<div id="settingsBox" class="flexboxRowWrap">
+			<div class="itembox border flexcontainer">
+				<div class="lightHeader">appendIcon</div>
+				<div>
+					<label>Init<input type="text" id="ia_init" maxlength="3" minlength="1" size="5" onchange="iconSampleFlush();"></label>
+					<label>Name<input type="text" id="ia_name" onchange="iconSampleFlush();"></label>
+					<label>Addr<input type="text" id="ia_addr" size="35" onchange="iconSampleFlush();"></label>
+					<label>iconBGColor<input type="text" size="7" id="ia_bgc" onchange="iconSampleFlush();"></label>
+					<label>iconFontColor<input type="text" size="7" id="ia_ftc" onchange="iconSampleFlush();"></label>
+					<input type="button" value="append" onclick="appendItem();">
+				</div>
+				<div>
+					<output class="container" id="ia_sampleView">
+						<div class="iconItem">
+							<div class="ii_icon">T</div>
+							<div class="ii_name">Twitter</div>
+						</div>
+					</output>
+				</div>
+			</div>
+			<div class="itembox border flexcontainer">
+				<div class="lightHeader">mode</div>
+				<div>
+					<label class=""><input type="radio" name="radioModeSel" onchange="modeChanged();" value="view" checked>VIEW</label>
+					<label class=""><input type="radio" name="radioModeSel" onchange="modeChanged();" value="swap">swap</label>
+					<label class=""><input type="radio" name="radioModeSel" onchange="modeChanged();" value="select">select</label>
+				</div>
+				<div id="modeDetail" style="min-height:60px;">
+					
+				</div>
+				<div>
+					<input type="button" id="button_removeSelected" value="remove" disabled="disabled" onclick="removeSelected();">
+					<input type="button" id="button_cancelSelected" value="cancel" disabled="disabled" onclick="cancelSelected();">
+					<input type="button" id="button_editSelected" value="edit" disabled="disabled" onclick="editSelected();">
+					<input type="button" id="button_cntTypeTglSelected" value="toggleContainerType" disabled="disabled" onclick="toggleContainerType();">
+				</div>
+			</div>
+			<div class="itembox border flexcontainer">
+				<div class="lightHeader">editContainer</div>
+				<div>
+					<label>Line<select id="ec_line"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></label>
+					<label>Name<input type="text" id="ec_name"></label>
+					<input type="button" value="append" onclick="appendContainer();">
+				</div>
+			</div>
+			<div class="itembox border flexcontainer">
+				<div class="lightHeader">Sync[chrome API]</div>
+				<div>
+					<input type="button" value="Login">
+					<output class="container border">noaction</output>
+				</div>
+			</div>
+			<div class="itembox border flexcontainer">
+				<div class="lightHeader">Control</div>
+				<div>
+					<input type="button" value="localStoreNow" onclick="storePersonalSettingsToLocal();">
+					<input type="button" value="rollback" onclick="if(comfirm('Are you sure reloading?')){loadPersonalSettingsFromLocal();containersFlush();}">
+				</div>
+			</div>
+			<div class="itembox border flexcontainer">
+				<div class="lightHeader">Json</div>
+				<div>
+					<input type="button" value="view" onclick="$('#viewjson').slideToggle();">
+				</div>
+				<div id="viewjson" style="display:none;">
+					<div>
+						<input type="button" value="update" onclick="$('#textboxjson').val(JSON.stringify(personalSettings,null,'  '));">
+					</div>
+					<output id="textboxjson" class="codebox"></output>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="border">
+		<output id="statusbar" class="codebox">Status Here</output>
+	</div>
+</div>
+
+<div style="margin-top:250px;"></div>
+
+</body>
+</html>
+
+
+<!--
+
+・ローカルストレージをベースに動作する
+・GoogleAPIで同期をとる
+・ある程度のstart.me互換
+
+・アイコン？-> １文字をアイコンとみなす
+・
+
+-->

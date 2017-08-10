@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<title>新しいページ</title>
+
+<script type="text/javascript" src="jquery223min.js"></script>
+<script type="text/javascript" src="newpage.js"></script>
+<link rel="stylesheet" href="newpage.css" type="text/css">
+
+</head>
+<body>
+
+<div class="border">
+	<div class="border">
+		<div class="center" id="searchDivision">
+			<input type="text" placeholder="keyword" autocomplete="off" id="search">
+			<input type="button" value="Google" id="btn_search_google">
+			<input type="button" value="Twitter" id="btn_search_twitter">
+			<input type="button" value="alc" id="btn_search_alc">
+		</div>
+	</div>
+	<div class="border flexboxRow" id="linkSet">
+
+	</div>
+	<div class="border" style="margin-top:100px;">
+		<div><input type="button" value="Settings" id="btn_appearsettings"></div>
+		<div id="settingsBox" class="flexboxRowWrap">
+			<div class="itembox border flexcontainer" id="appendIconDivision">
+				<div class="lightHeader">appendIcon</div>
+				<div>
+					<label>Init<input type="text" id="ia_init" maxlength="3" minlength="1" size="5"></label>
+					<label>Name<input type="text" id="ia_name"></label>
+					<label>Addr<input type="text" id="ia_addr" size="35"></label>
+					<label>iconBGColor<input type="text" size="7" id="ia_bgc"></label>
+					<label>iconFontColor<input type="text" size="7" id="ia_ftc"></label>
+					<input type="button" value="append" id="btn_ia_append">
+				</div>
+				<div>
+					<output class="container" id="ia_sampleView">
+						<div class="iconItem">
+							<div class="ii_icon">T</div>
+							<div class="ii_name">Twitter</div>
+						</div>
+					</output>
+				</div>
+			</div>
+			<div class="itembox border flexcontainer">
+				<div class="lightHeader">mode</div>
+				<div id="mc_radio">
+					<label class=""><input type="radio" name="radioModeSel" value="view" checked>VIEW</label>
+					<label class=""><input type="radio" name="radioModeSel" value="swap">swap</label>
+					<label class=""><input type="radio" name="radioModeSel" value="select">select</label>
+				</div>
+				<div id="modeDetail" style="min-height:60px;">
+					
+				</div>
+				<div>
+					<input type="button" id="button_removeSelected" value="remove" disabled="disabled">
+					<input type="button" id="button_cancelSelected" value="cancel" disabled="disabled">
+					<input type="button" id="button_editSelected" value="edit" disabled="disabled">
+					<input type="button" id="button_cntTypeTglSelected" value="toggleContainerType" disabled="disabled">
+				</div>
+			</div>
+			<div class="itembox border flexcontainer">
+				<div class="lightHeader">editContainer</div>
+				<div>
+					<label>Line<select id="ec_line"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></label>
+					<label>Name<input type="text" id="ec_name"></label>
+					<input type="button" value="append" id="btn_ec_append">
+				</div>
+			</div>
+			<div class="itembox border flexcontainer">
+				<div class="lightHeader">Sync[chrome API]</div>
+				<div>
+
+				</div>
+			</div>
+			<div class="itembox border flexcontainer">
+				<div class="lightHeader">Control</div>
+				<div>
+					<input type="button" value="localStoreNow" id="btn_ctrl_save">
+					<input type="button" value="rollback" id="btn_ctrl_reload">
+				</div>
+			</div>
+			<div class="itembox border flexcontainer">
+				<div class="lightHeader">Json</div>
+				<div>
+					<div>
+						<input type="button" value="show" id="btn_json_update">
+						<input type="button" value="push" id="btn_json_push">
+					</div>
+					<textarea id="textboxjson" class="codebox" rows="6"></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="border">
+		<output id="statusbar" class="codebox">Status Here</output>
+	</div>
+</div>
+
+<div style="margin-top:250px;"></div>
+
+</body>
+</html>
+
+
+<!--
+
+・ローカルストレージをベースに動作する
+・GoogleAPIで同期をとる
+・ある程度のstart.me互換
+
+・アイコン？-> １文字をアイコンとみなす
+・
+
+-->

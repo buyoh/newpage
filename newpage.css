@@ -1,0 +1,186 @@
+body{
+	font-family: "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro";
+	font-size:medium;
+	/*margin-left:auto;*/
+	/*margin-right:auto;*/
+	white-space:normal;
+}
+
+a:link{
+	color:blue;
+}
+a:visited {
+	color:blue;
+}
+a:active{
+	color:red;
+}
+a:hover{
+	color:red;
+}
+a:focus{
+	color:red;
+}
+
+label{
+	display: inline-block;
+}
+
+.flexboxRow{
+	display:flex;
+	flex-direction: row;
+}
+.flexboxCol{
+	display: flex;
+	flex-direction: column;
+	flex-basis
+}
+
+.flexboxRowWrap{
+	display:flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+}
+
+.flexcontainer{
+	flex: 1;
+}
+.container{
+	display: inline-block;
+}
+
+.border{
+	margin:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000;
+	border-radius: 5px;
+	padding:1px;
+	box-shadow: 1px 1px 2px 0px #444;
+}
+.center{
+	text-align:center;
+}
+
+.lightHeader{
+	border-bottom-color: #000;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 8px;
+	padding-left: 15px;
+	padding-right: 10px;
+}
+
+.itembox{
+	max-width:33%;
+}
+
+.notext{
+	cursor:default;
+}
+
+
+
+.containerName{
+
+}
+
+.iconItem{
+	display:inline-block;
+	margin:4px;
+	padding:8px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000;
+	border-radius: 0px;
+	text-align:center;
+	cursor:pointer;
+	background-color: #FFF;
+}
+.iconItem:hover{
+	background-color: #DDD;
+}
+
+.iconItem > .ii_icon{
+	margin-left:auto;
+	margin-right:auto;
+	background-color:#DDD;
+	border-radius: 4px;
+	width:32px;
+	height:32px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.iconItem > .ii_name{
+
+}
+
+
+.design1 > .iconItem{
+	padding:2px 8px;
+}
+.design1 > .iconItem:hover{
+	background-color: #DDD;
+}
+
+.design1 > .iconItem > .ii_icon{
+	display:none;
+}
+
+.design1 > .iconItem > .ii_name{
+	
+}
+
+
+.design2 > .iconItem{
+	text-align: left;
+	display:block;
+	padding:2px 8px;
+}
+.design2 > .iconItem:hover{
+	background-color: #DDD;
+}
+
+.design2 > .iconItem > .ii_icon{
+	display:inline-block;
+	height:auto;
+	margin-right:6px;
+}
+
+.design2 > .iconItem > .ii_name{
+	display:inline-block;
+}
+
+
+
+
+#searchDivision > input{
+	min-width:100px;
+	height:32px;
+}
+
+#search{
+	width:500px;
+	text-align:center;
+	font-size:large;
+
+	margin:5px;
+}
+
+#settingsBox .itembox{
+	min-width:400px;
+	display:inline-block;
+	padding:6px;
+}
+
+.codebox{
+	white-space: pre-wrap;
+	font-family: monospace;
+	display: block;
+	padding: 3px;
+	overflow: auto;
+	max-height:300px;
+}
